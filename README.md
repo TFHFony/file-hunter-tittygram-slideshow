@@ -169,3 +169,9 @@ to 31, insert the format tag, everything else copied unchanged).
 - **Music**: `mod.sll8`, by Sten Lysholm Larsen
 - **Music player**: [ptplayer](https://aminet.net/package/mus/play/ptplayer)
   by Frank Wille, public domain
+
+## Links
+
+- https://www.file-hunter.com
+- https://www.arnauddeklerk.com
+- https://tittygram.eu
