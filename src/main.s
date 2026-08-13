@@ -47,10 +47,16 @@
 ; trades a possible thin, incorrect strip on the right (the buffer has no
 ; per-row padding, so the extra fetched word is technically the start of
 ; the next row) for reliably showing the whole intended image width.
-DIWSTRT_PAL   EQU $28A1
-DIWSTOP_PAL   EQU $FCB1
-DIWSTRT_NTSC  EQU $22A1
-DIWSTOP_NTSC  EQU $F6B1
+; Horizontal shifted left by 8 CCK from the previous version (HSTART
+; $A1->$99, HSTOP $B1->$A9) to recenter the 272px window: widening it
+; earlier (to capture content that was going missing at exactly 256px)
+; only extended the right edge, which left the window centered on CCK 297
+; instead of the reference 289 -- a real rightward bias, not just a missing
+; sliver. Width is unchanged (still 272px / 17 fetched words), just shifted.
+DIWSTRT_PAL   EQU $2899
+DIWSTOP_PAL   EQU $FCA9
+DIWSTRT_NTSC  EQU $2299
+DIWSTOP_NTSC  EQU $F6A9
 
 FADE_STEPS    EQU 16
 SLIDE_TICKS   EQU 250          ; 250 * 20ms = 5 seconds per slide
@@ -197,8 +203,8 @@ SetupDisplayRegs:
         ; trade-off for reliably showing the full intended image width;
         ; fetching exactly 256px left a sliver of real content missing on
         ; the right instead.
-        move.w  #$0058,CUSTOM+DDFSTRT
-        move.w  #$00D8,CUSTOM+DDFSTOP
+        move.w  #$0050,CUSTOM+DDFSTRT           ; shifted left 8 CCK with DIWSTRT/DIWSTOP above
+        move.w  #$00D0,CUSTOM+DDFSTOP
         move.w  #0,CUSTOM+BPLCON1
         move.w  #0,CUSTOM+BPLCON2
         move.w  #$FFFE,CUSTOM+BPL1MOD

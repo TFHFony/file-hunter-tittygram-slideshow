@@ -11,8 +11,8 @@ Target: OCS, EHB (Extra Half-Brite, 32 colours + 32 half-bright shades),
 ## Status
 
 **Working**, confirmed in FS-UAE (A500/OCS, Kickstart 1.3): boots, shows all
-9 images with correct colours and fade transitions, plays music, and loops
-forever. One known minor cosmetic issue remains -- see below.
+9 images correctly centred with correct colours and fade transitions, plays
+music, and loops forever.
 
 Getting here took a full assemble-test-fix cycle in FS-UAE; several
 non-obvious bugs were found and fixed along the way (see "Bugs found during
@@ -84,19 +84,6 @@ copyrighted Commodore/Amiga software). Verified
 so far under PAL Kickstart 1.3 only; NTSC and other Kickstart versions are
 untested.
 
-## Known remaining issue
-
-**Right edge slightly cropped.** The display window is a formulaic
-best-effort fit (see `SetupDisplayRegs` in `main.s`) and consistently cuts
-off a sliver of the image's right edge at the "exact" 256px width. Widening
-it by one extra fetched word (272px, current setting) mostly fixes this at
-the cost of a very thin, technically-incorrect strip on the right (the
-image buffer has no per-row padding, so the extra fetched pixels are
-actually the start of the next row). Widening further breaks badly (tried
-288px: severe diagonal tearing) -- something about the DIWSTOP/DDFSTOP
-horizontal math is still not quite right beyond this point. Not
-investigated further given diminishing returns for a cosmetic issue.
-
 ## Bugs found during bring-up (for anyone touching this code)
 
 The first-draft version (written without incremental testing) had several
@@ -137,6 +124,11 @@ real bugs, found by actually booting it in FS-UAE:
   ultimately abandoned in favour of driving tempo from VBlank instead
   (a path already proven reliable elsewhere in this code), and then in
   favour of `ptplayer.asm` entirely (see below).
+- **Display window off-centre.** An earlier fix widened the display window
+  (`DIWSTRT`/`DIWSTOP`/`DDFSTRT`/`DDFSTOP`) to stop cropping the image's
+  right edge, but only extended `DIWSTOP` -- shifting the window's centre
+  8 CCK to the right instead of keeping it centred. Fixed by shifting the
+  whole window (same width) 8 CCK to the left so it's centred again.
 
 ## Music player
 
