@@ -1,0 +1,10 @@
+; Example FS-UAE config for testing out/slideshow.adf.
+; Edit kickstart_file to point at your own Kickstart 1.3 ROM (not included
+; in this repo -- Kickstart is copyrighted Commodore/Amiga software).
+; Run from the repo root: fs-uae tools/run.fs-uae
+[fs-uae]
+amiga_model = A500
+kickstart_file = Kickstart 1.3.rom
+floppy_drive_0 = out/slideshow.adf
+floppy_drive_1 =
+fullscreen = 0

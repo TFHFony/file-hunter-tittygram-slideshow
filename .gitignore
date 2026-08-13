@@ -1,0 +1,15 @@
+# Copyrighted Kickstart ROMs -- never redistribute these
+*.rom
+
+# Downloaded/local tool binaries (not part of this project's source;
+# see README for where to get them)
+tools/vasm/
+tools/fsuae/
+tools/ptplayer/
+
+# Build output (out/slideshow.adf is force-added and tracked despite this)
+out/
+
+# Python
+__pycache__/
+*.pyc
